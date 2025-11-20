@@ -66,7 +66,7 @@ template<typename... Ts> class StartAction : public Action<Ts...> {
   StartAction(MorseCode *morse_code) : morse_code_(morse_code) {}
   TEMPLATABLE_VALUE(std::string, value)
 
-  void play(Ts... x) override { this->morse_code_->start(this->value_.value(x...)); }
+  void play(const Ts&... x) override { this->morse_code_->start(this->value_.value(x...)); }
 
  protected:
   MorseCode *morse_code_;
@@ -74,12 +74,12 @@ template<typename... Ts> class StartAction : public Action<Ts...> {
 
 template<typename... Ts> class StopAction : public Action<Ts...>, public Parented<MorseCode> {
  public:
-  void play(Ts... x) override { this->parent_->stop(); }
+  void play(const Ts&... x) override { this->parent_->stop(); }
 };
 
 template<typename... Ts> class IsRunningCondition : public Condition<Ts...>, public Parented<MorseCode> {
  public:
-  bool check(Ts... x) override { return this->parent_->is_running(); }
+  bool check(const Ts&... x) override { return this->parent_->is_running(); }
 };
 
 class FinishedTrigger : public Trigger<> {
